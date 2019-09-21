@@ -1,5 +1,8 @@
 use std::collections::HashMap;
+use std::collections::HashSet;
 
+// Using HashMaps - the obvious way
+#[allow(dead_code)]
 pub fn is_unique(string: &str) -> bool {
   let mut char_hash = HashMap::new();
 
@@ -14,6 +17,14 @@ pub fn is_unique(string: &str) -> bool {
     }
   }
   true
+}
+
+// Using HashSet - flex flex flex!
+
+pub fn is_unique_flex(string: &str) -> bool {
+  let mut hash = HashSet::new();
+
+  !string.chars().any(|c| !hash.insert(c))
 }
 
 #[cfg(tests)]
@@ -32,47 +43,47 @@ mod test {
   #[test]
   fn unique_words() {
     let words = [
-       "abductions",
-       "abridgment",
-       "admixtures",
-       "afterglows",
-       "aftershock",
-       "algorithms",
-       "amplitudes",
-       "anchorites",
-       "angiosperm",
-       "angleworms",
-       "artichokes",
-       "atrophying",
-       "authorized",
-       "authorizes",
-       "autopsying",
-       "backfields",
-       "background",
-       "backslider",
-       "bandoliers",
-       "bankruptcy",
-       "bankrupted",
-       "becomingly",
-       "benchmarks",
-       "bifurcated",
-       "bifurcates",
-       "binoculars",
-       "birthplace",
-       "bivouacked",
-       "blacksmith",
-       "blackthorn",
-       "blockading",
-       "blockheads",
-       "blueprints",
-       "blustering",
-       "bolstering",
-       "boulevards",
-       "boundaries",
-       "boyfriends",
-       "bracketing",
-       "breakdowns"
-       ];
+      "abductions",
+      "abridgment",
+      "admixtures",
+      "afterglows",
+      "aftershock",
+      "algorithms",
+      "amplitudes",
+      "anchorites",
+      "angiosperm",
+      "angleworms",
+      "artichokes",
+      "atrophying",
+      "authorized",
+      "authorizes",
+      "autopsying",
+      "backfields",
+      "background",
+      "backslider",
+      "bandoliers",
+      "bankruptcy",
+      "bankrupted",
+      "becomingly",
+      "benchmarks",
+      "bifurcated",
+      "bifurcates",
+      "binoculars",
+      "birthplace",
+      "bivouacked",
+      "blacksmith",
+      "blackthorn",
+      "blockading",
+      "blockheads",
+      "blueprints",
+      "blustering",
+      "bolstering",
+      "boulevards",
+      "boundaries",
+      "boyfriends",
+      "bracketing",
+      "breakdowns",
+    ];
 
     for i in words {
       assert_eq!(is_unique(i), true);
