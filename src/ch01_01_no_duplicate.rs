@@ -27,16 +27,30 @@ pub fn is_unique_flex(string: &str) -> bool {
   !string.chars().any(|c| !hash.insert(c))
 }
 
-#[cfg(tests)]
-mod test {
+// Mutating input string
+pub fn is_unique_mutate(string: &mut String) -> bool {
+  let mut vec_chars: Vec<char> = string.chars().collect();
+  vec_chars.sort();
+
+  let mut vec_chars_for_dedup: Vec<char> = string.chars().collect();
+  vec_chars_for_dedup.sort();
+  vec_chars_for_dedup.dedup();
+
+  vec_chars == vec_chars_for_dedup
+}
+
+#[cfg(test)]
+mod tests {
 
   use super::*;
 
   #[test]
   fn single_character() {
-    let all_chars = "abcdefghijklmnopqrstuvwxyz".chars().collect();
+    let all_chars: Vec<char> = "abcdefghijklmnopqrstuvwxyz".chars().collect();
     for i in all_chars {
-      assert_eq!(is_unique(i), true);
+      assert_eq!(is_unique(&i.to_string()[..]), true);
+      assert_eq!(is_unique_flex(&i.to_string()[..]), true);
+      assert_eq!(is_unique_mutate(&mut i.to_string()), true);
     }
   }
 
@@ -85,8 +99,20 @@ mod test {
       "breakdowns",
     ];
 
-    for i in words {
+    for i in words.iter() {
       assert_eq!(is_unique(i), true);
+      assert_eq!(is_unique_flex(i), true);
+      assert_eq!(is_unique_mutate(&mut i.to_string()), true);
+    }
+  }
+
+  #[test]
+  fn incorect_words() {
+    let words = ["aaa", "bbb", "abab", "zxvbmaoz", "??"];
+    for i in words.iter() {
+      assert_eq!(is_unique(i), false);
+      assert_eq!(is_unique_flex(i), false);
+      assert_eq!(is_unique_mutate(&mut i.to_string()), false);
     }
   }
 }
